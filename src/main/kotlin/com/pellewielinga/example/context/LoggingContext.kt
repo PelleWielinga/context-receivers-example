@@ -8,15 +8,27 @@ import kotlin.io.path.readLines
 fun main() {
     val log = KotlinLogging.logger { }
 
-    greetPeople(log, "Hello Amsterdam!")
-    readOutRandomFact(log)
+    val loggingContext = object : LoggingContext {
+        override val log = log
+    }
+
+    with(loggingContext) {
+        greetPeople("Hello Amsterdam!")
+        readOutRandomFact()
+    }
 }
 
-fun greetPeople(log: Logger, message: String) {
+interface LoggingContext {
+    val log: Logger
+}
+
+context(LoggingContext)
+fun greetPeople(message: String) {
     log.info(message)
 }
 
-fun readOutRandomFact(log: Logger) {
+context(LoggingContext)
+fun readOutRandomFact() {
     val interestingFact = Path.of("./facts.txt").readLines().random()
     log.info(interestingFact)
 }

@@ -1,17 +1,18 @@
 package com.pellewielinga.example.context.appointments
 
-import com.pellewielinga.example.context.users.User
+import com.pellewielinga.example.context.users.UserContext
 import java.time.ZonedDateTime
 import java.util.*
 
 class AppointmentService(private val repository: AppointmentRepository) {
-
-    fun getAppointments(user: User): List<Appointment> {
-        return repository.getAppointmentsByUserId(user.userId)
+    context(UserContext)
+    fun getAppointments(): List<Appointment> {
+        return repository.getAppointmentsByUserId()
     }
 
-    fun scheduleAppointment(user: User, appointment: Appointment) {
-        repository.addAppointmentForUser(user.userId, appointment)
+    context(UserContext)
+    fun scheduleAppointment(appointment: Appointment) {
+        repository.addAppointmentForUser(appointment)
     }
 }
 
