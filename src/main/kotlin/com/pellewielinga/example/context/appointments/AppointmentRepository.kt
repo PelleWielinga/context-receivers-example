@@ -1,13 +1,16 @@
 package com.pellewielinga.example.context.appointments
 
-import java.util.*
+import com.pellewielinga.example.context.users.UserContext
 
 class AppointmentRepository {
-    fun getAppointmentsByUserId(userId: UUID): List<Appointment> {
+    context(UserContext)
+    fun getAppointmentsByUserId(): List<Appointment> {
+        val userId = authenticatedUser.userId
         TODO()
     }
 
-    fun addAppointmentForUser(userId: UUID, appointment: Appointment) {
+    context(UserContext)
+    fun addAppointmentForUser(appointment: Appointment) {
         TODO()
     }
 }
